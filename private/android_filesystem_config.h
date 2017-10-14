@@ -253,6 +253,8 @@ static const struct fs_path_config android_dirs[] = {
 
     /* Magisk ramdisk special directories */
     { 00000, AID_ROOT,         AID_ROOT,         0, ".backup" },
+    { 00750, AID_ROOT,         AID_ROOT,         0, "overlay/sbin" },
+    { 00000, AID_ROOT,         AID_ROOT,         0, "overlay" },
 
     /* SuperSU ramdisk special directories */
     { 00000, AID_ROOT,         AID_ROOT,         0, ".subackup" },
@@ -318,9 +320,14 @@ static const struct fs_path_config android_files[] = {
 
     /* Magisk ramdisk special files */
     { 00000, AID_ROOT,      AID_ROOT,      0, ".backup/.rmlist" },
-    { 00750, AID_ROOT,      AID_ROOT,      0, ".backup/init.rc" },
+    { 00750, AID_ROOT,      AID_ROOT,      0, ".backup/init*" },
     { 00755, AID_ROOT,      AID_ROOT,      0, "sbin/magisk" },
     { 00750, AID_ROOT,      AID_ROOT,      0, "init.magisk.rc" },
+    { 00755, AID_ROOT,      AID_ROOT,      0, "overlay/sbin/magisk" },
+    { 00750, AID_ROOT,      AID_SHELL,     0, "overlay/sbin/*" },
+    { 00640, AID_ROOT,      AID_SHELL,     0, "overlay/fstab.*" },
+    { 00750, AID_ROOT,      AID_ROOT,      0, "overlay/init.magisk.rc" },
+    { 00750, AID_ROOT,      AID_SHELL,     0, "overlay/init*" },
 
     /* SuperSU ramdisk special files */
     { 00640, AID_ROOT,      AID_ROOT,      0, ".subackup/0000_fstab.*" },
@@ -337,9 +344,9 @@ static const struct fs_path_config android_files[] = {
     { 00700, AID_ROOT,      AID_ROOT,      0, "boot/sbin/launch_daemonsu.sh" },
     { 00750, AID_ROOT,      AID_SHELL,     0, "boot/sbin/*" },
     { 00640, AID_ROOT,      AID_SHELL,     0, "boot/fstab.*" },
-    { 00750, AID_ROOT,      AID_ROOT,      0, "boot/init.environ.rc" },
     { 00750, AID_ROOT,      AID_ROOT,      0, "boot/init.rc" },
     { 00750, AID_ROOT,      AID_ROOT,      0, "boot/init.supersu.rc" },
+    { 00750, AID_ROOT,      AID_ROOT,      0, "boot/init" },
     { 00750, AID_ROOT,      AID_SHELL,     0, "boot/init*" },
 
     { 00750, AID_ROOT,      AID_SHELL,     0, "charger*" },

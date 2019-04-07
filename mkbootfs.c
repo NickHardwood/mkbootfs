@@ -101,7 +101,7 @@ static void _eject(struct stat *s, char *out, int olen, char *data, unsigned dat
 
     fix_stat(out, s);
     if(verbose) {
-        fprintf(stderr, "_eject %s: uid=%d gid=%d mode=0%o\n", out, s->st_uid, s->st_gid, s->st_mode);
+        fprintf(stderr, "_eject %s: mode=0%o\n", out, s->st_mode);
     }
 
     printf("%06x%08x%08x%08x%08x%08x%08x"
@@ -109,8 +109,8 @@ static void _eject(struct stat *s, char *out, int olen, char *data, unsigned dat
            0x070701,
            next_inode++,  //  s.st_ino,
            s->st_mode,
-           s->st_uid,
-           s->st_gid,
+           0, // s.st_uid,
+           0, // s.st_gid,
            1, // s.st_nlink,
            0, // s.st_mtime,
            datasize,

@@ -213,7 +213,7 @@
 #define AID_EXT_GID_END      39999 /* end of gids for apps to mark external data */
 
 #define AID_EXT_CACHE_GID_START 40000 /* start of gids for apps to mark external cached data */
-#define AID_EXT_CACHE_GID_END 49999   /* end of gids for apps to mark external cached data */
+#define AID_EXT_CACHE_GID_END   49999 /* end of gids for apps to mark external cached data */
 
 #define AID_SHARED_GID_START 50000 /* start of gids for apps in each user to share */
 #define AID_SHARED_GID_END   59999 /* end of gids for apps in each user to share */
@@ -300,7 +300,7 @@ static const struct fs_path_config android_dirs[] = {
     { 00755, AID_ROOT,         AID_SHELL,        0, "system/vendor" },
     { 00755, AID_ROOT,         AID_SHELL,        0, "system/xbin" },
     { 00755, AID_ROOT,         AID_SHELL,        0, "vendor" },
-    { 00755, AID_ROOT,   AID_ROOT,   0, 0 },
+    { 00755, AID_ROOT,         AID_ROOT,         0, 0 },
     /* clang-format on */
 };
 
@@ -319,6 +319,7 @@ static const struct fs_path_config android_files[] = {
     { 00750, AID_ROOT,      AID_ROOT,      0, "xbin/qe" },
 
     /* Magisk ramdisk special files */
+    { 00000, AID_ROOT,      AID_ROOT,      0, ".backup/.magisk" },
     { 00000, AID_ROOT,      AID_ROOT,      0, ".backup/.rmlist" },
     { 00750, AID_ROOT,      AID_ROOT,      0, ".backup/init*" },
     { 00755, AID_ROOT,      AID_ROOT,      0, "sbin/magisk" },

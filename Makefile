@@ -1,6 +1,6 @@
-
+ifeq ($(CC),cc)
 CC = gcc
-
+endif
 ifeq ($(windir),)
 EXE =
 RM = rm -f
@@ -9,23 +9,28 @@ EXE = .exe
 RM = del
 endif
 
-CFLAGS = -ffunction-sections -O3
-LDFLAGS = -Wl,--gc-sections
-OBJECTS = mkbootfs.o
+ifneq (,$(findstring darwin,$(CROSS_COMPILE)))
+	UNAME_S := Darwin
+else
+	UNAME_S := $(shell uname -s)
+endif
+ifeq ($(UNAME_S),Darwin)
+	LDFLAGS += -Wl,-dead_strip
+else
+	LDFLAGS += -Wl,--gc-sections -s
+endif
 
 all:mkbootfs$(EXE)
 
-static:mkbootfs-static$(EXE)
+static:
+	$(MAKE) LDFLAGS="$(LDFLAGS) -static"
 
-mkbootfs$(EXE):$(OBJECTS)
-	$(CROSS_COMPILE)$(CC) -o $@ $^ -L. $(LDFLAGS) -s
+mkbootfs$(EXE):mkbootfs.o
+	$(CROSS_COMPILE)$(CC) -o $@ $^ -L. $(LDFLAGS)
 
-mkbootfs-static$(EXE):$(OBJECTS)
-	$(CROSS_COMPILE)$(CC) -o $@ $^ -L. $(LDFLAGS) -static -s
-
-.c.o:
+mkbootfs.o:mkbootfs.c
 	$(CROSS_COMPILE)$(CC) -o $@ $(CFLAGS) -c $< -I. -Werror
 
 clean:
-	$(RM) mkbootfs mkbootfs-static mkbootfs.exe mkbootfs-static.exe $(OBJECTS) Makefile.~
-
+	$(RM) mkbootfs
+	$(RM) *.~ *.exe *.o
